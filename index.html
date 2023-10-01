@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tic-Tac-Toe</title>
+<style>
+body {
+font-family: Arial, sans-serif;
+background-color: #f0f0f0;
+text-align: center;
+transition: background-color 0.5s;
+}
+
+/* Dark Mode */
+body.dark-mode {
+background-color: #192734;
+}
+
+#tic-tac-toe-board {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+grid-gap: 10px;
+max-width: 300px;
+margin: 0 auto;
+margin-top: 20px;
+}
+
+.cell {
+width: 100px;
+height: 100px;
+background-color: #fff;
+font-size: 36px;
+display: flex;
+justify-content: center;
+align-items: center;
+cursor: pointer;
+}
+
+.cell.x {
+color: #ff5722;
+}
+
+.cell.o {
+color: #2196f3;
+}
+
+#player-names {
+margin-top: 20px;
+}
+
+#dark-mode-toggle {
+background-color: #2196f3;
+color: #fff;
+border: none;
+padding: 5px 10px;
+border-radius: 5px;
+cursor: pointer;
+}
+</style>
+</head>
+<body>
+<h1>Tic-Tac-Toe</h1>
+<div id="player-names">
+<label for="player1">Player 1 (X): </label>
+<input type="text" id="player1" placeholder="Enter name">
+<label for="player2">Player 2 (O): </label>
+<input type="text" id="player2" placeholder="Enter name">
+<button id="start-game">Start Game</button>
+<button id="dark-mode-toggle">Dark Mode</button>
+</div>
+<div id="tic-tac-toe-board">
+<div class="cell" data-cell></div>
+<div class="cell" data-cell></div>
+<div class="cell" data-cell></div>
+<div class="cell" data-cell></div>
+<div class="cell" data-cell></div>
+<div class="cell" data-cell></div>
+<div class="cell" data-cell></div>
+<div class="cell" data-cell></div>
+<div class="cell" data-cell></div>
+</div>
+<p id="winner-message"></p>
+<script>
+const board = document.getElementById('tic-tac-toe-board');
+const cells = document.querySelectorAll('[data-cell]');
+const winnerMessage = document.getElementById('winner-message');
+const player1Input = document.getElementById('player1');
+const player2Input = document.getElementById('player2');
+const startGameButton = document.getElementById('start-game');
+const darkModeToggle = document.getElementById('dark-mode-toggle');
+let darkModeEnabled = false;
+
+darkModeToggle.addEventListener('click', () => {
+darkModeEnabled = !darkModeEnabled;
+document.body.classList.toggle('dark-mode', darkModeEnabled);
+});
+
+let currentPlayer = 'X';
+let player1Name = '';
+let player2Name = '';
+let gameBoard = ['', '', '', '', '', '', '', '', ''];
+let gameActive = false;
+
+const winningCombinations = [
+[0, 1, 2],
+[3, 4, 5],
+[6, 7, 8],
+[0, 3, 6],
+[1, 4, 7],
+[2, 5, 8],
+[0, 4, 8],
+[2, 4, 6]
+];
+
+startGameButton.addEventListener('click', () => {
+player1Name = player1Input.value.trim() || 'Player 1';
+player2Name = player2Input.value.trim() || 'Player 2';
+player1Input.disabled = true;
+player2Input.disabled = true;
+startGameButton.disabled = true;
+gameActive = true;
+});
+
+function handleCellClick(e) {
+const cell = e.target;
+const index = Array.from(cells).indexOf(cell);
+
+if (gameBoard[index] === '' && gameActive) {
+gameBoard[index] = currentPlayer;
+cell.classList.add(currentPlayer);
+cell.textContent = currentPlayer;
+checkWinner();
+togglePlayer();
+}
+}
+
+function togglePlayer() {
+currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+}
+
+function checkWinner() {
+for (const combination of winningCombinations) {
+const [a, b, c] = combination;
+if (gameBoard[a] && gameBoard[a] === gameBoard[b] && gameBoard[a] === gameBoard[c]) {
+gameActive = false;
+const winner = currentPlayer === 'X' ? player1Name : player2Name;
+winnerMessage.textContent = `${winner} wins!`;
+}
+}
+if (!gameBoard.includes('') && gameActive) {
+gameActive = false;
+winnerMessage.textContent = 'It\'s a draw!';
+}
+}
+
+cells.forEach(cell => cell.addEventListener('click', handleCellClick));
+</script>
+</body>
+</html>
