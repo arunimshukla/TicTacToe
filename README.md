@@ -4,11 +4,11 @@ This is a simple implementation of the classic Tic-Tac-Toe game using HTML, CSS,
 
 # Features
 
-Two-player mode: Enter the names of both players before starting the game.
-Dark mode: Toggle between light and dark modes for a personalized experience.
-Responsive design: The game is optimized for mobile devices.
-Dynamic UI: The winner is announced, and the board is reset automatically.
-User-friendly: Easy-to-use interface with clear instructions.
+- Two-player mode: Enter the names of both players before starting the game.
+- Dark mode: Toggle between light and dark modes for a personalized experience.
+- Responsive design: The game is optimized for mobile devices.
+- Dynamic UI: The winner is announced, and the board is reset automatically.
+- User-friendly: Easy-to-use interface with clear instructions.
 
 # How to Play
 
